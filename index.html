@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Solving for Bangalore</title>
+<meta name="description" content="A civic initiative bringing citizens, engineers, and local government together to fix Bangalore's urban challenges.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300..700;1,9..40,300..700&display=swap">
+<style>
+:root {
+  --bg: #FAFAF7;
+  --fg: #1A1A18;
+  --fg-muted: #6B6B60;
+  --accent: #C8451B;
+  --accent-light: #F0DDD5;
+  --surface: #FFFFFF;
+  --border: #E2E0D8;
+  --display: 'Instrument Serif', Georgia, serif;
+  --body: 'DM Sans', system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #141412;
+    --fg: #E8E6E0;
+    --fg-muted: #908E85;
+    --accent: #E8643A;
+    --accent-light: #2D1E16;
+    --surface: #1C1C19;
+    --border: #2E2D28;
+    color-scheme: dark;
+  }
+}
+
+* { margin: 0; box-sizing: border-box; }
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--body);
+  line-height: 1.6;
+  padding: 0 16px;
+  -webkit-font-smoothing: antialiased;
+}
+
+.wrap { max-width: 1080px; margin: 0 auto; }
+
+nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--border);
+}
+nav .logo {
+  font-family: var(--display);
+  font-size: 1.25rem;
+  color: var(--fg);
+  text-decoration: none;
+}
+nav .logo span { color: var(--accent); }
+nav ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  gap: 28px;
+}
+nav a {
+  color: var(--fg-muted);
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+nav a:hover { color: var(--fg); }
+
+.hero {
+  padding: 80px 0 60px;
+  max-width: 780px;
+}
+.hero-eyebrow {
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 20px;
+}
+.hero h1 {
+  font-family: var(--display);
+  font-size: clamp(2.8rem, 6vw, 4.5rem);
+  line-height: 1.08;
+  font-weight: 400;
+  margin-bottom: 28px;
+  text-wrap: balance;
+}
+.hero h1 em {
+  font-style: italic;
+  color: var(--accent);
+}
+.hero p {
+  font-size: 1.15rem;
+  color: var(--fg-muted);
+  max-width: 560px;
+  line-height: 1.7;
+  margin-bottom: 36px;
+}
+.hero-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--accent);
+  color: #fff;
+  padding: 14px 32px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: opacity 0.2s;
+}
+.hero-cta:hover { opacity: 0.88; }
+.hero-cta svg { width: 16px; height: 16px; }
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 80px;
+}
+.stat {
+  background: var(--surface);
+  padding: 28px 24px;
+  text-align: center;
+}
+.stat-num {
+  font-family: var(--display);
+  font-size: 2.4rem;
+  color: var(--accent);
+  line-height: 1.1;
+}
+.stat-label {
+  font-size: 0.82rem;
+  color: var(--fg-muted);
+  margin-top: 6px;
+  font-weight: 500;
+}
+
+.section-header { margin-bottom: 48px; }
+.section-header h2 {
+  font-family: var(--display);
+  font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+  font-weight: 400;
+  margin-bottom: 12px;
+  text-wrap: balance;
+}
+.section-header p {
+  color: var(--fg-muted);
+  max-width: 520px;
+  font-size: 1.05rem;
+}
+
+.challenges { padding-bottom: 80px; }
+.challenge-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+.challenge-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 32px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  transition: border-color 0.25s;
+}
+.challenge-card:hover { border-color: var(--accent); }
+.challenge-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  background: var(--accent-light);
+  display: grid;
+  place-items: center;
+}
+.challenge-icon svg { width: 22px; height: 22px; color: var(--accent); }
+.challenge-card h3 {
+  font-family: var(--display);
+  font-size: 1.35rem;
+  font-weight: 400;
+}
+.challenge-card p {
+  color: var(--fg-muted);
+  font-size: 0.92rem;
+  line-height: 1.65;
+}
+.challenge-tag {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: var(--accent-light);
+  padding: 4px 10px;
+  border-radius: 4px;
+  align-self: flex-start;
+}
+
+.approach {
+  padding: 80px 0;
+  border-top: 1px solid var(--border);
+}
+.approach-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 40px;
+  counter-reset: step;
+}
+.approach-step { counter-increment: step; }
+.approach-step::before {
+  content: counter(step, decimal-leading-zero);
+  font-family: var(--display);
+  font-size: 2.2rem;
+  color: var(--border);
+  display: block;
+  margin-bottom: 16px;
+  line-height: 1;
+}
+.approach-step h3 {
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+.approach-step p {
+  color: var(--fg-muted);
+  font-size: 0.9rem;
+  line-height: 1.65;
+}
+
+.voices {
+  padding: 80px 0;
+  border-top: 1px solid var(--border);
+}
+.voice-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+.voice-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 32px 28px;
+}
+.voice-card blockquote {
+  font-family: var(--display);
+  font-size: 1.15rem;
+  font-style: italic;
+  line-height: 1.55;
+  margin-bottom: 20px;
+}
+.voice-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.voice-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--accent-light);
+  display: grid;
+  place-items: center;
+  font-family: var(--display);
+  font-size: 1.1rem;
+  color: var(--accent);
+}
+.voice-name { font-weight: 600; font-size: 0.9rem; }
+.voice-role { color: var(--fg-muted); font-size: 0.82rem; }
+
+.cta-section {
+  padding: 80px 0;
+  border-top: 1px solid var(--border);
+  text-align: center;
+}
+.cta-section h2 {
+  font-family: var(--display);
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 400;
+  margin-bottom: 16px;
+  text-wrap: balance;
+}
+.cta-section p {
+  color: var(--fg-muted);
+  max-width: 480px;
+  margin: 0 auto 36px;
+  font-size: 1.05rem;
+}
+.cta-form {
+  display: flex;
+  gap: 10px;
+  max-width: 420px;
+  margin: 0 auto;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.cta-form input {
+  flex: 1;
+  min-width: 200px;
+  padding: 14px 18px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--surface);
+  color: var(--fg);
+  font-family: var(--body);
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.cta-form input::placeholder { color: var(--fg-muted); }
+.cta-form input:focus { border-color: var(--accent); }
+.cta-form button {
+  padding: 14px 28px;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-family: var(--body);
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+.cta-form button:hover { opacity: 0.88; }
+
+footer {
+  padding: 40px 0;
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+footer .logo {
+  font-family: var(--display);
+  font-size: 1.1rem;
+  color: var(--fg);
+}
+footer .logo span { color: var(--accent); }
+footer p {
+  color: var(--fg-muted);
+  font-size: 0.82rem;
+}
+
+@media (max-width: 600px) {
+  nav ul { gap: 16px; }
+  .hero { padding: 48px 0 40px; }
+  .challenge-grid, .voice-grid { grid-template-columns: 1fr; }
+  .approach-grid { grid-template-columns: 1fr; gap: 32px; }
+  .stats { grid-template-columns: repeat(2, 1fr); }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav>
+    <a href="#" class="logo">Solving for <span>Bangalore</span></a>
+    <ul>
+      <li><a href="#challenges">Challenges</a></li>
+      <li><a href="#approach">Approach</a></li>
+      <li><a href="#voices">Voices</a></li>
+      <li><a href="#join">Join</a></li>
+    </ul>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-eyebrow">A civic initiative</div>
+    <h1>The city that builds the future deserves <em>one of its own</em></h1>
+    <p>Bangalore powers a $250 billion tech economy but struggles with the basics: water, traffic, waste, and air. We bring citizens, engineers, and local government together to fix what's broken.</p>
+    <a href="#join" class="hero-cta">
+      Get involved
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+    </a>
+  </section>
+
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-num">14M</div>
+      <div class="stat-label">People in the metro</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">72 min</div>
+      <div class="stat-label">Average daily commute</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">47%</div>
+      <div class="stat-label">Lake area lost since 1973</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">1,100</div>
+      <div class="stat-label">Tonnes of waste per day</div>
+    </div>
+  </div>
+
+  <section class="challenges" id="challenges">
+    <div class="section-header">
+      <h2>The problems we're working on</h2>
+      <p>Each challenge is tied to a measurable target and an open working group anyone can join.</p>
+    </div>
+    <div class="challenge-grid">
+      <div class="challenge-card">
+        <div class="challenge-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/><path d="M8 12a4 4 0 0 0 8 0"/><path d="M12 2v4M12 18v4"/></svg>
+        </div>
+        <span class="challenge-tag">Water</span>
+        <h3>Save the lakes, fix the pipes</h3>
+        <p>Bangalore's 200+ lakes are its kidneys. We're mapping encroachments, tracking sewage inflows, and piloting decentralised treatment at ward level to reclaim 30 lakes by 2028.</p>
+      </div>
+      <div class="challenge-card">
+        <div class="challenge-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="11" width="18" height="7" rx="2"/><path d="M6 11V7a3 3 0 0 1 3-3h0a3 3 0 0 1 3 3v4M12 11V5a3 3 0 0 1 3-3h0a3 3 0 0 1 3 3v6"/></svg>
+        </div>
+        <span class="challenge-tag">Mobility</span>
+        <h3>Untangle the 72-minute commute</h3>
+        <p>Open-sourcing BMTC bus data, building last-mile feeder route models for Namma Metro, and crowdsourcing signal-timing fixes at the 50 worst junctions in the city.</p>
+      </div>
+      <div class="challenge-card">
+        <div class="challenge-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        </div>
+        <span class="challenge-tag">Waste</span>
+        <h3>Close the dry-waste gap</h3>
+        <p>Only 40% of Bangalore's dry waste is segregated. We're working with BBMP and waste-picker cooperatives on a ward-by-ward collection dashboard and informal-sector integration plan.</p>
+      </div>
+      <div class="challenge-card">
+        <div class="challenge-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <span class="challenge-tag">Governance</span>
+        <h3>Make ward committees work</h3>
+        <p>198 wards, barely a dozen active committees. We publish attendance data, budget utilisation scores, and citizen-complaint resolution rates to drive accountability.</p>
+      </div>
+      <div class="challenge-card">
+        <div class="challenge-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 10h-4V4a2 2 0 0 0-4 0v6H6l6 8 6-8z"/><path d="M3 20h18"/></svg>
+        </div>
+        <span class="challenge-tag">Flooding</span>
+        <h3>Map the flood corridors</h3>
+        <p>Combining ISRO elevation data with stormwater drain surveys to build a live flood-risk model. Goal: early warnings to every affected ward 6 hours before a cloudbreak.</p>
+      </div>
+      <div class="challenge-card">
+        <div class="challenge-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+        </div>
+        <span class="challenge-tag">Air Quality</span>
+        <h3>Breathe cleaner by 2030</h3>
+        <p>Deploying a low-cost sensor mesh across 50 high-traffic corridors to build a real-time AQI map and give KSPCB the evidence for targeted interventions.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="approach" id="approach">
+    <div class="section-header">
+      <h2>How we work</h2>
+      <p>Open data, open code, open meetings. Every working group follows the same rhythm.</p>
+    </div>
+    <div class="approach-grid">
+      <div class="approach-step">
+        <h3>Measure it first</h3>
+        <p>No intervention without a baseline. We scrape, FOIA, and sensor-deploy until the problem has a number attached.</p>
+      </div>
+      <div class="approach-step">
+        <h3>Build the smallest useful tool</h3>
+        <p>A dashboard, a bot, a data feed. Ship a working prototype to the people closest to the problem within 8 weeks.</p>
+      </div>
+      <div class="approach-step">
+        <h3>Partner with the system</h3>
+        <p>BBMP, BWSSB, BMTC, KSPCB, ward committees. Handoff is the goal; shadow infrastructure isn't.</p>
+      </div>
+      <div class="approach-step">
+        <h3>Show progress publicly</h3>
+        <p>Monthly scorecards. Every dataset on GitHub. Every meeting recorded. If we can't show the change, we haven't made it.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="voices" id="voices">
+    <div class="section-header">
+      <h2>Voices from the city</h2>
+    </div>
+    <div class="voice-grid">
+      <div class="voice-card">
+        <blockquote>"I lost two cars in the 2022 floods. Now I get a warning on my phone six hours before the water rises. That's what solving looks like."</blockquote>
+        <div class="voice-meta">
+          <div class="voice-avatar">R</div>
+          <div>
+            <div class="voice-name">Raghav K.</div>
+            <div class="voice-role">Resident, Mahadevapura</div>
+          </div>
+        </div>
+      </div>
+      <div class="voice-card">
+        <blockquote>"The ward committee dashboard embarrassed us into showing up. Attendance went from 3 members to 14 in two quarters."</blockquote>
+        <div class="voice-meta">
+          <div class="voice-avatar">S</div>
+          <div>
+            <div class="voice-name">Sunita M.</div>
+            <div class="voice-role">Corporator, Ward 56</div>
+          </div>
+        </div>
+      </div>
+      <div class="voice-card">
+        <blockquote>"We mapped every storm drain in our ward in one weekend with 40 volunteers. The BBMP engineer said it was the first accurate survey he'd ever seen."</blockquote>
+        <div class="voice-meta">
+          <div class="voice-avatar">A</div>
+          <div>
+            <div class="voice-name">Arjun D.</div>
+            <div class="voice-role">Volunteer, HSR Layout</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-section" id="join">
+    <h2>Bangalore won't fix itself</h2>
+    <p>Engineers, urbanists, FOIA nerds, ward-walkers, data scrapers, concerned citizens. There's a working group for you.</p>
+    <form class="cta-form" id="joinForm">
+      <input type="email" id="joinEmail" placeholder="Your email" required>
+      <button type="submit">Join a working group</button>
+    </form>
+    <p id="formMsg" style="margin-top:16px;font-size:0.9rem;" hidden></p>
+  </section>
+
+  <footer>
+    <div class="logo">Solving for <span>Bangalore</span></div>
+    <p>Open-source civic initiative. All data on GitHub.</p>
+  </footer>
+</div>
+
+<script>
+document.getElementById('joinForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  var msg = document.getElementById('formMsg');
+  var email = document.getElementById('joinEmail');
+  msg.hidden = false;
+  msg.style.color = 'var(--accent)';
+  msg.textContent = 'Thanks! We’ll be in touch at ' + email.value;
+  email.value = '';
+});
+</script>
+</body>
+</html>
